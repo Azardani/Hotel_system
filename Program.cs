@@ -20,7 +20,7 @@ while (is_running)
     Console.WriteLine("2. Quit");
 
     string input = Console.ReadLine();
-    switch (input)
+    switch (input) // Lägger till funktioner till cases , i detta fall så kommer "1" och "2" kunna göra något
     {
         case "1":
             if (Active_user == null)
@@ -29,16 +29,23 @@ while (is_running)
                 string username = Console.ReadLine();
                 Console.WriteLine("password");
                 string password = Console.ReadLine();
+
+                bool userfound = false;
                 foreach (IUser user in Users)
                 {
                     if (user.TryLogin(username, password))
                     {
                         Active_user = user;
+                        userfound = true;
                         Console.WriteLine("Welcome Back");
+                        Console.ReadKey();
                     }
-                    else if (Active_user == null)
+                    else if (!userfound)
                     {
-                        Console.WriteLine("Wrong Username or password");
+                        Console.WriteLine("Wrong username or password");
+                        Console.WriteLine("press random key to continue");
+                        Console.ReadKey();
+                        break;
                     }
                 }
             }
@@ -46,4 +53,4 @@ while (is_running)
         case "2":
             return;
     }
-}
+}    
