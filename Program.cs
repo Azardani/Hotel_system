@@ -23,24 +23,28 @@ while (is_running)
     switch (input) // Lägger till funktioner till cases , i detta fall så kommer "1" och "2" kunna göra något
     {
         case "1":
-            if (Active_user == null)
+            if (Active_user == null) //Active user innebär att en användare är inloggad, i detta fall finns ingen användare än, alltså null
             {
                 Console.WriteLine("Username");
                 string username = Console.ReadLine();
                 Console.WriteLine("password");
                 string password = Console.ReadLine();
 
-                bool userfound = false;
+                bool userfound = false; // programmet utgår ifrån att den inte hittat en användare från början, 
                 foreach (IUser user in Users)
                 {
-                    if (user.TryLogin(username, password))
+                    if (user.TryLogin(username, password)) // om username samt password matchar med dem lagrade i Accounts.txt så kommer userfound vara true!
                     {
                         Active_user = user;
                         userfound = true;
                         Console.WriteLine("Welcome Back");
                         Console.ReadKey();
+                        foreach (Hotel hotel in Hotels)
+                        {
+                            
+                        }
                     }
-                    else if (!userfound)
+                    else if (!userfound) //ifall username och password inte matchar med någon av dem sparade i Accounts.txt så kommer programet inte gå vidare,
                     {
                         Console.WriteLine("Wrong username or password");
                         Console.WriteLine("press random key to continue");
@@ -53,4 +57,6 @@ while (is_running)
         case "2":
             return;
     }
+         
+    
 }    
