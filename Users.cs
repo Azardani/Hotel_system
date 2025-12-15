@@ -5,6 +5,7 @@ public class User : IUser
     string Password;
 
 
+
     public User(string username, string password)
     {
         Username = username;

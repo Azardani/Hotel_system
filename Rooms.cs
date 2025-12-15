@@ -1,8 +1,19 @@
-public enum RoomType
+namespace App;
+    public enum RoomStateEnum
+    {
+        Available,  
+        Unavailable,
+        Maintanance,
+    }
+    
+class Room
 {
-    RoomT101,
-    Room102,
-    Room103,
-    Room104,
-    Room105
+    public string RoomNr;
+    public RoomStateEnum RoomState;
+
+    public Room(string roomNumber, RoomStateEnum roomState = RoomStateEnum.Available)
+    {
+        RoomNr = roomNumber;
+        RoomState = roomState;
+    }
 }

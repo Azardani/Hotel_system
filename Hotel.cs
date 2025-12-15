@@ -1,2 +1,2 @@
-namespace Hotels;
-public class Hotel; 
+namespace Hotel;
+public class Hotels; 
