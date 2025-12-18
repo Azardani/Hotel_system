@@ -1,19 +1,27 @@
-namespace App;
+namespace App
+{
     public enum RoomStateEnum
     {
-        Available,  
+        Available,
         Unavailable,
-        Maintanance,
+        Maintenance
     }
-    
-class Room
-{
-    public string RoomNr;
-    public RoomStateEnum RoomState;
 
-    public Room(string roomNumber, RoomStateEnum roomState = RoomStateEnum.Available)
+    public class Room
     {
-        RoomNr = roomNumber;
-        RoomState = roomState;
+        public string RoomNr;
+        public RoomStateEnum RoomState;
+
+        public string GuestName;
+
+        public Room(string roomNumber, RoomStateEnum roomState = RoomStateEnum.Available)
+        {
+            RoomNr = roomNumber;
+            RoomState = roomState;
+            GuestName = null;
+        }
+
     }
 }
+
+ 
