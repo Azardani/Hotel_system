@@ -6,14 +6,14 @@ List<Room> rooms = new List<Room>();
 List<User> Users = new List<User>();
 
 
-
+///enums för room
 rooms.Add(new Room("Room101", RoomStateEnum.Available));
 rooms.Add(new Room("Room102", RoomStateEnum.Available));
 rooms.Add(new Room("Room103", RoomStateEnum.Maintained));
 rooms.Add(new Room("Room104", RoomStateEnum.Available));
 rooms.Add(new Room("Room105", RoomStateEnum.Maintained));
     
-SaveRooms();
+SaveRooms(); //sparar room
 
 void SaveRooms()
 {
@@ -31,19 +31,29 @@ if (File.Exists("Accounts.txt"))
     {
         foreach (var line in File.ReadAllLines("Accounts.txt")) 
         {
-            string[] parts = line.Split(';');
+            string[] parts = line.Split(';');                       //hur en account sparas i accounts.txt
             if (parts.Length == 2)
                 Users.Add(new User(parts[0], parts[1]));
         }
     }
-IUser? Active_user = null;
+IUser? Active_user = null; ///ifall ingen användare registreras så öppnas menyn
 bool is_running = true;
 while (is_running)
 {
-    Console.Clear();
-    Console.WriteLine("Welcome to Hotell");
-    Console.WriteLine("1. sign in");
-    Console.WriteLine("2. Quit");
+  Console.Clear();
+
+
+Console.WriteLine(@"██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗
+██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝
+██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗  
+██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝  
+╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗
+╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝");
+
+
+Console.WriteLine("1. Sign in");
+Console.WriteLine("2. Quit");
+
 
     string input = Console.ReadLine();
     switch (input) 
@@ -56,7 +66,7 @@ while (is_running)
                 Console.WriteLine("password");
                 string password = Console.ReadLine();
                 IUser user = Users[0];
-                foreach (IUser User in Users)
+                foreach (IUser User in Users) ///kollar alla användare, men i detta fall finns bara en,(Stilpoäng)
                 
                     if (user.TryLogin(username, password))
                     {
@@ -76,7 +86,7 @@ while (is_running)
             }
             break;
         case "2":
-            break;
+            return;
     
     }
 } 
