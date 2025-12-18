@@ -68,7 +68,7 @@ Console.WriteLine("2. Quit");
                 IUser user = Users[0];
                 foreach (IUser User in Users) ///kollar alla användare, men i detta fall finns bara en,(Stilpoäng)
                 
-                    if (user.TryLogin(username, password))
+                    if (user.TryLogin(username, password)) // kollar om användare vill logga in med sparade uppgifter!
                     {
                         Active_user = user;
                         Console.WriteLine("welcome back!");
@@ -90,7 +90,7 @@ Console.WriteLine("2. Quit");
     
     }
 } 
-void UserMenu()
+void UserMenu() /// Användarmeny, efter en lyckad inloggning
 {
     while (Active_user != null)
     {
@@ -138,7 +138,7 @@ void UserMenu()
                 }
                 Console.WriteLine("Choose a room to book!");
                 String RoomNr = Console.ReadLine();
-                Room? selectedRoom = rooms.FirstOrDefault(r => r.RoomNr == RoomNr);
+                Room? selectedRoom = rooms.FirstOrDefault(r => r.RoomNr == RoomNr); // kollar Room klassen efter den angivna nummret, alltså kan det vara ett objekt eller Null!
                 if (selectedRoom == null)
                 {
                     Console.WriteLine("invalid Room number");
@@ -146,7 +146,7 @@ void UserMenu()
                     Console.ReadKey();
                     break;
                 }
-                if (selectedRoom.RoomState == RoomStateEnum.Available)
+                if (selectedRoom.RoomState == RoomStateEnum.Available) // om det valda rummet matchar statusen i enum ås kommmer nedstående att executas
                 {
                     Console.WriteLine("Guest Name");
                     String GuestName = Console.ReadLine();
@@ -156,7 +156,7 @@ void UserMenu()
 
                     SaveRooms();
 
-                    Console.WriteLine($"{RoomNr} has been booked for {GuestName}.");
+                    Console.WriteLine($"{RoomNr} has been booked for {GuestName}."); /// här sparas ett specifikt rum för en specifik gäst
                     Console.WriteLine("press any key to continue");
                     Console.ReadKey();
 
@@ -182,7 +182,7 @@ void UserMenu()
                 
                 Room? selectedRoom = rooms.FirstOrDefault(r => r.RoomNr == roomNr);
 
-                if (selectedRoom == null)
+                if (selectedRoom == null) //om man väljer ett rum som inte finns så får man detta meddeland 
                 {
                     Console.WriteLine("Invalid room number, try again.");
                     Console.ReadKey(); 
@@ -245,7 +245,7 @@ void UserMenu()
                 
                 if(selectedRoom.RoomState == RoomStateEnum.Unavailable)
                 {
-                    Console.WriteLine($"this Room is occupied by {selectedRoom.GuestName}");
+                    Console.WriteLine($"this Room is occupied by {selectedRoom.GuestName}"); //denna visar vilken gäst som är i det rummet man valde!
                     Thread.Sleep(2000);
                     Console.WriteLine("would you like to check the guest out?");
                     Console.WriteLine("1. yes");
