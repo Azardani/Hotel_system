@@ -9,9 +9,9 @@ List<User> Users = new List<User>();
 
 rooms.Add(new Room("Room101", RoomStateEnum.Available));
 rooms.Add(new Room("Room102", RoomStateEnum.Available));
-rooms.Add(new Room("Room103", RoomStateEnum.Unavailable));
-rooms.Add(new Room("Room104", RoomStateEnum.Unavailable));
-rooms.Add(new Room("Room105", RoomStateEnum.Maintenance));
+rooms.Add(new Room("Room103", RoomStateEnum.Maintained));
+rooms.Add(new Room("Room104", RoomStateEnum.Available));
+rooms.Add(new Room("Room105", RoomStateEnum.Maintained));
     
 SaveRooms();
 
@@ -102,61 +102,175 @@ void UserMenu()
                     foreach (Room room in rooms)
                     {
                         
-                        Console.WriteLine($"Room {room.RoomNr} is {room.RoomState}");
+                        Console.WriteLine($"{room.RoomNr} is {room.RoomState}");
                     
                     }
                     Console.WriteLine("press any key to continue");
                     Console.ReadKey();
                 }break;
-            case "2":
+        case "2":
+            {
+                Console.WriteLine("these room are available");
+                bool found = false;
+                foreach(Room room in rooms)
                 {
-                    Console.WriteLine("these room are available");
-                    bool found = false;
-                    foreach(Room room in rooms)
+                    if(room.RoomState == RoomStateEnum.Available)
                     {
-                        if(room.RoomState == RoomStateEnum.Available)
-                        {
+                        
+                        Console.WriteLine($"{room.RoomNr} is available");
+                        found = true;
+                    }
+
+                }
+                if (!found)
+                {
+                    Console.WriteLine("No rooms available");
+                }
+                Console.WriteLine("Choose a room to book!");
+                String RoomNr = Console.ReadLine();
+                Room? selectedRoom = rooms.FirstOrDefault(r => r.RoomNr == RoomNr);
+                if (selectedRoom == null)
+                {
+                    Console.WriteLine("invalid Room number");
+                    Console.WriteLine("press any key to return");
+                    Console.ReadKey();
+                    break;
+                }
+                if (selectedRoom.RoomState == RoomStateEnum.Available)
+                {
+                    Console.WriteLine("Guest Name");
+                    String GuestName = Console.ReadLine();
+
+                    selectedRoom.RoomState = RoomStateEnum.Unavailable;  
+                    selectedRoom.GuestName = GuestName;  
+
+                    SaveRooms();
+
+                    Console.WriteLine($"{RoomNr} has been booked for {GuestName}.");
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadKey();
+
+                }
+
+
+                break;
+         
+           }
+        case "3":
+            {
+                Console.WriteLine("Room status:");
+
+                
+                foreach (Room room in rooms)
+                {
+                    Console.WriteLine($"Room {room.RoomNr} is {room.RoomState}");
+                }
+
+                Console.WriteLine("Choose a room to manage:");
+                string roomNr = Console.ReadLine();
+
+                
+                Room? selectedRoom = rooms.FirstOrDefault(r => r.RoomNr == roomNr);
+
+                if (selectedRoom == null)
+                {
+                    Console.WriteLine("Invalid room number, try again.");
+                    Console.ReadKey(); 
+                    break; 
+                }
+
+                
+
+                if (selectedRoom.RoomState == RoomStateEnum.Available)
+                {
+                    Console.WriteLine("What would you like to do with this room?");
+                    Console.WriteLine("1. Close for Maintenance");
+
+                    string choice = Console.ReadLine();
+
+                    switch (choice)
+                    {
+                        case "1":
+                           
+                            selectedRoom.RoomState = RoomStateEnum.Maintained;
+                            Console.WriteLine($"Room {selectedRoom.RoomNr} is now under {selectedRoom.RoomState}.");
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid choice.");
+                            break;
+                    }
+                }
+                if (selectedRoom.RoomState == RoomStateEnum.Maintained)
+                {
+                    Console.WriteLine("What would you like to do with this room?");
+                    Console.WriteLine("1. Open for Guests");
+                    Console.WriteLine("2. Do nothing");
+
+                    string action = Console.ReadLine();
+
+                    switch (action)
+                    {
+                        case "1":
                             
-                            Console.WriteLine($"Room {room.RoomNr} is available");
-                            found = true;
-                        }
+                            selectedRoom.RoomState = RoomStateEnum.Available;
+                            Console.WriteLine($"Room {selectedRoom.RoomNr} is now {selectedRoom.RoomState}.");
+                            Console.WriteLine("press any key to continue");
+                            Console.ReadKey();
+                            break;
 
+                        case "2":
+                            Console.WriteLine("No changes made.");
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid choice.");
+                            break;
                     }
-                    if (!found)
-                    {
-                        Console.WriteLine("No rooms available");
-                    }
-                    Console.WriteLine("Choose a room to book!");
-                    String RoomNr = Console.ReadLine();
-                    Room? selectedRoom = rooms.FirstOrDefault(r => r.RoomNr == RoomNr);
-                    if (selectedRoom == null)
-                    {
-                        Console.WriteLine("invalid Room number");
-                        Console.WriteLine("press any key to return");
-                        Console.ReadKey();
-                        break;
-                    }
-                    if (selectedRoom.RoomState == RoomStateEnum.Available)
-                    {
-                        Console.WriteLine("Guest Name");
-                        String GuestName = Console.ReadLine();
-
-                        selectedRoom.RoomState = RoomStateEnum.Unavailable; // Rummet blir otillgängligt
-                        selectedRoom.GuestName = GuestName;  // Spara gästens namn
-
-                        SaveRooms();
-
-                        Console.WriteLine($"Room {RoomNr} has been booked for {GuestName}.");
-
-                    }
-
-
+                    SaveRooms();
                     break;
                 }
                 
                 
-                      
                 
-        }
+                if(selectedRoom.RoomState == RoomStateEnum.Unavailable)
+                {
+                    Console.WriteLine($"this Room is occupied by {selectedRoom.GuestName}");
+                    Thread.Sleep(2000);
+                    Console.WriteLine("would you like to check the guest out?");
+                    Console.WriteLine("1. yes");
+                    Console.WriteLine("2. No");
+                    string val = Console.ReadLine();
+
+                    switch (val)
+                        {
+                            case "1":
+                                {
+                                    selectedRoom.RoomState = RoomStateEnum.Available;
+                                    Console.WriteLine("The guest has been checked out");
+                                    Thread.Sleep(1000);
+                                    Console.WriteLine("this room is now available");
+                                    Console.WriteLine("press any key to continue");
+                                    Console.ReadKey();
+                                    break;
+                                }
+                            case "2":
+                                {
+                                    Console.WriteLine("Guest stays");
+                                    break;
+                                }
+
+                        }
+                }break;
+
+                            
+            
+        
+                        
+                
+                
+            }
+            
     }
-}   
+}
+}

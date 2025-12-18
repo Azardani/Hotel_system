@@ -4,7 +4,7 @@ namespace App
     {
         Available,
         Unavailable,
-        Maintenance
+        Maintained
     }
 
     public class Room

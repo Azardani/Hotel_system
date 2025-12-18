@@ -1,5 +1,5 @@
-Room101;Unavailable
+Room101;Available
 Room102;Available
-Room103;Unavailable
-Room104;Unavailable
-Room105;Maintenance
+Room103;Maintained
+Room104;Available
+Room105;Available
